@@ -1,6 +1,6 @@
 export interface Session {
   id: string;
-  type: "sat_math" | "sat_rw" | "ielts" | "project";
+  type: string;
   duration: number;
   score: number | null;
   note: string | null;

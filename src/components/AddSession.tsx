@@ -1,6 +1,6 @@
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import AddSessionForm from "./AddSessionForm";
-import { Dialog } from "radix-ui";
+import { Dialog, Separator } from "radix-ui";
 
 export default function AddSession() {
     return (
@@ -12,16 +12,20 @@ export default function AddSession() {
             </Dialog.Trigger>
 
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/50" />
+                <Dialog.Content className="fixed left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 bg-primary text-white p-4 rounded-lg shadow-black shadow-md">
+                    <Dialog.Title className="mb-4 text-lg font-semibold">
+                        Add Session
+                    </Dialog.Title>
 
-                <Dialog.Content className="fixed left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded">
-                    <Dialog.Title className="text-center">Add Session</Dialog.Title>
+                    <Separator.Root className="mb-4 bg-white h-[1px]" />
+
+                    <Dialog.Close asChild className="absolute top-4 right-4">
+                        <button>
+                            <X />
+                        </button>
+                    </Dialog.Close>
 
                     <AddSessionForm />
-
-                    <Dialog.Close asChild>
-                        <button>Close</button>
-                    </Dialog.Close>
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

@@ -16,8 +16,8 @@ export default function AddSessionForm() {
         const sessionInput = {
             type: rawData.type as string,
             duration: Number(rawData.duration),
-            score: Number(rawData.score),
-            note: rawData.note as string,
+            score: rawData.score !== "" ? Number(rawData.score) : null, // Convert empty string to null for optional score
+            note: rawData.note as string || null, // Convert empty string to null for optional note
         } as Session;
 
         // API call
@@ -26,7 +26,7 @@ export default function AddSessionForm() {
         form.reset();
     };
     return (
-        <Form.Root className="FormRoot flex flex-col" onSubmit={handleSubmit}>
+        <Form.Root className="FormRoot flex flex-col gap-3" onSubmit={handleSubmit}>
             <Form.Field name="type">
                 <div className="flex justify-between">
                     <Form.Label>Session Type</Form.Label>
@@ -38,12 +38,12 @@ export default function AddSessionForm() {
                     </Form.Message>
                 </div>
                 <Form.Control asChild>
-                    <select required className="border p-2 w-full">
+                    <select required className="border rounded-lg p-2 w-full text-black">
                         <option value="">Select a type...</option>
-                        <option value="sat_math">SAT Math</option>
-                        <option value="sat_rw">SAT Reading/Writing</option>
-                        <option value="ielts">IELTS</option>
-                        <option value="project">Project</option>
+                        <option value="SAT Math">SAT Math</option>
+                        <option value="SAT Reading/Writing">SAT Reading/Writing</option>
+                        <option value="IELTS">IELTS</option>
+                        <option value="Project">Project</option>
                     </select>
                 </Form.Control>
             </Form.Field>
@@ -58,7 +58,7 @@ export default function AddSessionForm() {
                     </Form.Message>
                 </div>
                 <Form.Control asChild>
-                    <select required className="border p-2 w-full">
+                    <select required className="border rounded-lg p-2 w-full text-black">
                         <option value="">Select duration...</option>
                         <option value="30">30 min</option>
                         <option value="45">45 min</option>
@@ -82,7 +82,7 @@ export default function AddSessionForm() {
                     <input
                         type="number"
                         min="1"
-                        className="border p-2 w-full"
+                        className="border rounded-lg p-2 w-full text-black"
                     />
                 </Form.Control>
             </Form.Field>
@@ -91,7 +91,7 @@ export default function AddSessionForm() {
                     <Form.Label className="FormLabel">Note</Form.Label>
                 </div>
                 <Form.Control asChild>
-                    <textarea className="Textarea border p-2 w-full" />
+                    <textarea className="Textarea border rounded-lg p-2 w-full text-black" />
                 </Form.Control>
             </Form.Field>
             <Form.Submit asChild>
