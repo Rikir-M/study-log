@@ -1,28 +1,31 @@
-import { Table } from "@radix-ui/themes";
+import { DropdownMenu, Flex, IconButton, Table } from "@radix-ui/themes";
 import type { Session } from "../types/session";
 import { useLoaderData } from "react-router";
+import { EllipsisVertical } from "lucide-react";
 
 export default function Sessions() {
     const { sessions } = useLoaderData() as { sessions: Session[] };
 
     return (
-        <Table.Root className="w-[90%] mx-auto mt-10 bg-primary rounded-lg shadow-black shadow-md p-4">
+        <Table.Root variant="surface" className="w-[70%] mx-auto">
             <Table.Header>
                 <Table.Row>
-                    <Table.ColumnHeaderCell className="text-white">
+                    <Table.ColumnHeaderCell width="20%">
                         Session Type
                     </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="text-white">
+                    <Table.ColumnHeaderCell width="10%">
                         Duration
                     </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="text-white">
+                    <Table.ColumnHeaderCell width="10%">
                         Score
                     </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="text-white">
+                    <Table.ColumnHeaderCell width="40%">
                         Note
                     </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell className="text-white">
+                    <Table.ColumnHeaderCell width="10%">
                         Created At
+                    </Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell width="10%">
                     </Table.ColumnHeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -30,20 +33,44 @@ export default function Sessions() {
             <Table.Body>
                 {sessions.map((session) => (
                     <Table.Row key={session.id}>
-                        <Table.Cell className="text-white">
+                        <Table.Cell>
                             {session.type}
                         </Table.Cell>
-                        <Table.Cell className="text-white">
+                        <Table.Cell>
                             {session.duration} mins
                         </Table.Cell>
-                        <Table.Cell className="text-white">
+                        <Table.Cell>
                             {session.score ?? "N/A"}
                         </Table.Cell>
-                        <Table.Cell className="text-white">
+                        <Table.Cell>
                             {session.note ?? "N/A"}
                         </Table.Cell>
-                        <Table.Cell className="text-white">
+                        <Table.Cell>
                             {new Date(session.created_at).toLocaleDateString()}
+                        </Table.Cell>
+                        <Table.Cell>
+                            <Flex flexGrow="1" justify="end">
+                                <DropdownMenu.Root>
+                                    <DropdownMenu.Trigger>
+                                        <IconButton
+                                            color="gray"
+                                            variant="ghost"
+                                        >
+                                            <EllipsisVertical/>
+                                        </IconButton>
+                                    </DropdownMenu.Trigger>
+                                    <DropdownMenu.Content
+                                        variant="soft"
+                                    >
+                                        <DropdownMenu.Item>View detail</DropdownMenu.Item>
+                                        <DropdownMenu.Item>Edit</DropdownMenu.Item>
+                                        <DropdownMenu.Separator />
+                                        <DropdownMenu.Item color="red">
+                                            Remove
+                                        </DropdownMenu.Item>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Root>
+                            </Flex>
                         </Table.Cell>
                     </Table.Row>
                 ))}
