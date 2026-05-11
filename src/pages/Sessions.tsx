@@ -7,7 +7,7 @@ export default function Sessions() {
     const { sessions } = useLoaderData() as { sessions: Session[] };
 
     return (
-        <Table.Root variant="surface" className="w-[70%] mx-auto">
+        <Table.Root variant="surface" className="lg:w-[70%] mx-auto" layout='fixed'>
             <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeaderCell width="20%">
@@ -30,7 +30,7 @@ export default function Sessions() {
                 </Table.Row>
             </Table.Header>
 
-            <Table.Body>
+            <Table.Body className="">
                 {sessions.map((session) => (
                     <Table.Row key={session.id}>
                         <Table.Cell>
@@ -42,7 +42,7 @@ export default function Sessions() {
                         <Table.Cell>
                             {session.score ?? "N/A"}
                         </Table.Cell>
-                        <Table.Cell>
+                        <Table.Cell className="truncate">
                             {session.note ?? "N/A"}
                         </Table.Cell>
                         <Table.Cell>
