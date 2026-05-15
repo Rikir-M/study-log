@@ -1,8 +1,20 @@
 import { Form } from "radix-ui";
-import { createSession } from "../api/sessions";
+import { createSession, updateSession } from "../api/sessions";
 import type { Session } from "../types/session";
 
-export default function AddSessionForm() {
+type SessionFormProps = {
+    session?: Session,
+    mode: "add" | "edit",
+    onSuccess?: () => void
+}
+
+export default function SessionForm({
+    session,
+    mode,
+    onSuccess,
+}: SessionFormProps) {
+    const isEditMode = mode === "edit";
+
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -21,9 +33,25 @@ export default function AddSessionForm() {
         } as Session;
 
         // API call
-        await createSession(sessionInput);
+        try {
+            if (isEditMode && session) {
+                await updateSession(
+                    session.id,
+                    sessionInput
+                );
+            } else {
+                await createSession(
+                    sessionInput as Session
+                );
 
-        form.reset();
+                form.reset();
+            }
+
+            onSuccess?.();
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <Form.Root className="FormRoot flex flex-col gap-3" onSubmit={handleSubmit}>
@@ -38,7 +66,14 @@ export default function AddSessionForm() {
                     </Form.Message>
                 </div>
                 <Form.Control asChild>
-                    <select required className="border rounded-lg p-2 w-full text-black">
+                    <select
+                        name="type"
+                        required
+                        defaultValue={
+                            session?.type ?? ""
+                        }
+                        className="border rounded-lg p-2 w-full text-black"
+                    >
                         <option value="">Select a type...</option>
                         <option value="SAT Math">SAT Math</option>
                         <option value="SAT Reading/Writing">SAT Reading/Writing</option>
@@ -58,7 +93,18 @@ export default function AddSessionForm() {
                     </Form.Message>
                 </div>
                 <Form.Control asChild>
-                    <select required className="border rounded-lg p-2 w-full text-black">
+                    <select
+                        name="duration"
+                        required
+                        defaultValue={
+                            session?.duration
+                                ? String(
+                                      session.duration
+                                  )
+                                : ""
+                        }
+                        className="border rounded-lg p-2 w-full text-black"
+                    >
                         <option value="">Select duration...</option>
                         <option value="30">30 min</option>
                         <option value="45">45 min</option>
@@ -80,8 +126,12 @@ export default function AddSessionForm() {
                 </div>
                 <Form.Control asChild>
                     <input
+                        name="score"
                         type="number"
                         min="1"
+                        defaultValue={
+                            session?.score ?? ""
+                        }
                         className="border rounded-lg p-2 w-full text-black"
                     />
                 </Form.Control>
@@ -91,11 +141,21 @@ export default function AddSessionForm() {
                     <Form.Label className="FormLabel">Note</Form.Label>
                 </div>
                 <Form.Control asChild>
-                    <textarea className="Textarea border rounded-lg p-2 w-full text-black" />
+                    <textarea
+                        name="note"
+                        defaultValue={
+                            session?.note ?? ""
+                        }
+                        className="border rounded-lg p-2 w-full text-black"
+                    />
                 </Form.Control>
             </Form.Field>
             <Form.Submit asChild>
-                <button className="Button">Add</button>
+                <button className="Button">
+                    {isEditMode
+                        ? "Update"
+                        : "Add"}
+                </button>
             </Form.Submit>
         </Form.Root>
     );

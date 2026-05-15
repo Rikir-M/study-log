@@ -29,11 +29,11 @@ export async function getSessions() {
   }
 }
 
-export async function updateSession(uuid: string, input: Partial<Session>) {
+export async function updateSession(id: string, input: Partial<Session>) {
   const { data, error } = await supabase
     .from("sessions")
     .update(input)
-    .eq("uuid", uuid)
+    .eq("id", id)
     .select()
     .single();
 
@@ -44,11 +44,11 @@ export async function updateSession(uuid: string, input: Partial<Session>) {
   }
 }
 
-export async function deleteSession(uuid: string) {
+export async function deleteSession(id: string) {
   const { data, error } = await supabase
     .from("sessions")
     .delete()
-    .eq("uuid", uuid);
+    .eq("id", id);
 
   if (error) {
     console.log("Error:", error);

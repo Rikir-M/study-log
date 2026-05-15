@@ -1,5 +1,5 @@
 import { Plus, X } from "lucide-react";
-import AddSessionForm from "./AddSessionForm";
+import SessionForm from "./SessionForm";
 import { Dialog, Separator } from "radix-ui";
 
 export default function AddSession() {
@@ -25,7 +25,7 @@ export default function AddSession() {
                         </button>
                     </Dialog.Close>
 
-                    <AddSessionForm />
+                    <SessionForm mode="add" />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
