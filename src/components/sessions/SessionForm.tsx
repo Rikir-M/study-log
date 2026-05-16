@@ -141,7 +141,7 @@ export default function SessionForm({
                 </Form.Control>
             </Form.Field>
             <Form.Submit asChild>
-                <button className="Button">
+                <button className="Button bg-primary py-3 rounded-lg text-white">
                     {isEditMode ? "Update" : "Add"}
                 </button>
             </Form.Submit>
