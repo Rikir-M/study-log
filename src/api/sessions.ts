@@ -2,57 +2,57 @@ import type { Session } from "../types/session";
 import { supabase } from "../utils/supabase";
 
 export async function createSession(input: Session) {
-  const { data, error } = await supabase
-    .from("sessions")
-    .insert(input)
-    .select()
-    .single();
+    const { data, error } = await supabase
+        .from("sessions")
+        .insert(input)
+        .select()
+        .single();
 
-  if (error) {
-    console.log("Error:", error);
-  } else {
-    console.log("Inserted:", data);
-  }
+    if (error) {
+        console.log("Error:", error);
+    } else {
+        console.log("Inserted:", data);
+    }
 }
 
 export async function getSessions() {
-  const { data, error } = await supabase
-    .from("sessions")
-    .select("*")
-    .order("created_at", { ascending: false });
+    const { data, error } = await supabase
+        .from("sessions")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-  if (error) {
-    console.log("Error:", error);
-    return [];
-  } else {
-    return data as Session[];
-  }
+    if (error) {
+        console.log("Error:", error);
+        return [];
+    } else {
+        return data as Session[];
+    }
 }
 
 export async function updateSession(id: string, input: Partial<Session>) {
-  const { data, error } = await supabase
-    .from("sessions")
-    .update(input)
-    .eq("id", id)
-    .select()
-    .single();
+    const { data, error } = await supabase
+        .from("sessions")
+        .update(input)
+        .eq("id", id)
+        .select()
+        .single();
 
-  if (error) {
-    console.log("Error:", error);
-  } else {
-    console.log("Updated:", data);
-  }
+    if (error) {
+        console.log("Error:", error);
+    } else {
+        console.log("Updated:", data);
+    }
 }
 
 export async function deleteSession(id: string) {
-  const { data, error } = await supabase
-    .from("sessions")
-    .delete()
-    .eq("id", id);
+    const { data, error } = await supabase
+        .from("sessions")
+        .delete()
+        .eq("id", id);
 
-  if (error) {
-    console.log("Error:", error);
-  } else {
-    console.log("Deleted:", data);
-  }
+    if (error) {
+        console.log("Error:", error);
+    } else {
+        console.log("Deleted:", data);
+    }
 }
