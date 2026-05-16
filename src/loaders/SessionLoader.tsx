@@ -1,6 +1,6 @@
-import { getSessions } from "../api/sessions"
+import { getSessions } from "../api/sessions";
 
 export async function SessionLoader() {
-  const sessions = await getSessions()
-  return { sessions }
+    const sessions = await getSessions();
+    return { sessions };
 }

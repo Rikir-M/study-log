@@ -8,11 +8,7 @@ type AlertProps = {
     session: Session | null;
 };
 
-export default function Alert({
-    open,
-    onOpenChange,
-    session,
-}: AlertProps) {
+export default function Alert({ open, onOpenChange, session }: AlertProps) {
     const handleDelete = async () => {
         if (!session) return;
 
@@ -27,10 +23,7 @@ export default function Alert({
     };
 
     return (
-        <AlertDialog.Root
-            open={open}
-            onOpenChange={onOpenChange}
-        >
+        <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
             <AlertDialog.Portal>
                 <AlertDialog.Overlay className="fixed inset-0 bg-black/40" />
 

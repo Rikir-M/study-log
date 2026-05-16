@@ -2,14 +2,16 @@ import { DropdownMenu, Flex, IconButton, Table } from "@radix-ui/themes";
 import type { Session } from "../types/session";
 import { useLoaderData } from "react-router";
 import { EllipsisVertical } from "lucide-react";
-import EditSession from "../components/EditSession";
+import EditSession from "../components/sessions/EditSession";
 import Alert from "../components/Alert";
 import { useState } from "react";
 
 export default function Sessions() {
     const { sessions } = useLoaderData() as { sessions: Session[] };
 
-    const [selectedSession, setSelectedSession] = useState<Session | null>(null);
+    const [selectedSession, setSelectedSession] = useState<Session | null>(
+        null,
+    );
 
     const [editOpen, setEditOpen] = useState(false);
 
@@ -61,31 +63,24 @@ export default function Sessions() {
                 <Table.Body>
                     {sessions.map((session) => (
                         <Table.Row key={session.id}>
-                            <Table.Cell>
-                                {session.type}
-                            </Table.Cell>
+                            <Table.Cell>{session.type}</Table.Cell>
 
-                            <Table.Cell>
-                                {session.duration} mins
-                            </Table.Cell>
+                            <Table.Cell>{session.duration} mins</Table.Cell>
 
-                            <Table.Cell>
-                                {session.score ?? "N/A"}
-                            </Table.Cell>
+                            <Table.Cell>{session.score ?? "N/A"}</Table.Cell>
 
                             <Table.Cell className="truncate">
                                 {session.note ?? "N/A"}
                             </Table.Cell>
 
                             <Table.Cell>
-                                {new Date(session.created_at).toLocaleDateString()}
+                                {new Date(
+                                    session.created_at,
+                                ).toLocaleDateString()}
                             </Table.Cell>
 
                             <Table.Cell>
-                                <Flex
-                                    flexGrow="1"
-                                    justify="end"
-                                >
+                                <Flex flexGrow="1" justify="end">
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger>
                                             <IconButton
@@ -102,7 +97,9 @@ export default function Sessions() {
                                             </DropdownMenu.Item>
 
                                             <DropdownMenu.Item
-                                                onSelect={() => handleEdit(session)}
+                                                onSelect={() =>
+                                                    handleEdit(session)
+                                                }
                                             >
                                                 Edit
                                             </DropdownMenu.Item>
@@ -111,7 +108,9 @@ export default function Sessions() {
 
                                             <DropdownMenu.Item
                                                 color="red"
-                                                onSelect={() => handleDelete(session)}
+                                                onSelect={() =>
+                                                    handleDelete(session)
+                                                }
                                             >
                                                 Remove
                                             </DropdownMenu.Item>

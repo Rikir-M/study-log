@@ -1,12 +1,12 @@
 import { Form } from "radix-ui";
-import { createSession, updateSession } from "../api/sessions";
-import type { Session } from "../types/session";
+import { createSession, updateSession } from "../../api/sessions";
+import type { Session } from "../../types/session";
 
 type SessionFormProps = {
-    session?: Session,
-    mode: "add" | "edit",
-    onSuccess?: () => void
-}
+    session?: Session;
+    mode: "add" | "edit";
+    onSuccess?: () => void;
+};
 
 export default function SessionForm({
     session,
@@ -29,20 +29,15 @@ export default function SessionForm({
             type: rawData.type as string,
             duration: Number(rawData.duration),
             score: rawData.score !== "" ? Number(rawData.score) : null, // Convert empty string to null for optional score
-            note: rawData.note as string || null, // Convert empty string to null for optional note
+            note: (rawData.note as string) || null, // Convert empty string to null for optional note
         } as Session;
 
         // API call
         try {
             if (isEditMode && session) {
-                await updateSession(
-                    session.id,
-                    sessionInput
-                );
+                await updateSession(session.id, sessionInput);
             } else {
-                await createSession(
-                    sessionInput as Session
-                );
+                await createSession(sessionInput as Session);
 
                 form.reset();
             }
@@ -54,7 +49,10 @@ export default function SessionForm({
         }
     };
     return (
-        <Form.Root className="FormRoot flex flex-col gap-3" onSubmit={handleSubmit}>
+        <Form.Root
+            className="FormRoot flex flex-col gap-3"
+            onSubmit={handleSubmit}
+        >
             <Form.Field name="type">
                 <div className="flex justify-between">
                     <Form.Label>Session Type</Form.Label>
@@ -69,14 +67,14 @@ export default function SessionForm({
                     <select
                         name="type"
                         required
-                        defaultValue={
-                            session?.type ?? ""
-                        }
+                        defaultValue={session?.type ?? ""}
                         className="border rounded-lg p-2 w-full text-black"
                     >
                         <option value="">Select a type...</option>
                         <option value="SAT Math">SAT Math</option>
-                        <option value="SAT Reading/Writing">SAT Reading/Writing</option>
+                        <option value="SAT Reading/Writing">
+                            SAT Reading/Writing
+                        </option>
                         <option value="IELTS">IELTS</option>
                         <option value="Project">Project</option>
                     </select>
@@ -97,11 +95,7 @@ export default function SessionForm({
                         name="duration"
                         required
                         defaultValue={
-                            session?.duration
-                                ? String(
-                                      session.duration
-                                  )
-                                : ""
+                            session?.duration ? String(session.duration) : ""
                         }
                         className="border rounded-lg p-2 w-full text-black"
                     >
@@ -129,9 +123,7 @@ export default function SessionForm({
                         name="score"
                         type="number"
                         min="1"
-                        defaultValue={
-                            session?.score ?? ""
-                        }
+                        defaultValue={session?.score ?? ""}
                         className="border rounded-lg p-2 w-full text-black"
                     />
                 </Form.Control>
@@ -143,18 +135,14 @@ export default function SessionForm({
                 <Form.Control asChild>
                     <textarea
                         name="note"
-                        defaultValue={
-                            session?.note ?? ""
-                        }
+                        defaultValue={session?.note ?? ""}
                         className="border rounded-lg p-2 w-full text-black"
                     />
                 </Form.Control>
             </Form.Field>
             <Form.Submit asChild>
                 <button className="Button">
-                    {isEditMode
-                        ? "Update"
-                        : "Add"}
+                    {isEditMode ? "Update" : "Add"}
                 </button>
             </Form.Submit>
         </Form.Root>

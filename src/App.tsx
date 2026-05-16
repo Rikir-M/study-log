@@ -5,12 +5,12 @@ import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
 
 function App() {
-  return (
-    <Theme panelBackground="solid" className="p-3">
-      <Navbar />
-      <Outlet />
-    </Theme>
-  );
+    return (
+        <Theme panelBackground="solid" className="p-3">
+            <Navbar />
+            <Outlet />
+        </Theme>
+    );
 }
 
 export default App;
