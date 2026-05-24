@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import type { LucideIcon } from "lucide-react";
 import { Home, Logs, ChartLine, Settings } from "lucide-react";
-import AddSession from "./sessions/AddSession";
+import Add from "./Add";
 import Rectangle from "../assets/Rect.svg";
 
 type NavItem = {
@@ -40,8 +40,8 @@ export default function Navbar() {
     );
 
     return (
-        <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[90%] md:w-3/5 z-10">
-            <AddSession />
+        <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[90%] md:w-3/5 z-50">
+            <Add />
             <img className="mx-auto" src={Rectangle} alt="" />
             <ul className="flex items-center justify-between bg-primary text-white p-5 rounded-full shadow-lg">
                 {leftLinks.map(renderLink)}

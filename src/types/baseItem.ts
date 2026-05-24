@@ -1,6 +1,5 @@
-export interface Mistake {
+export interface BaseItem {
     id: string;
-    topic: string;
     type: string;
     note: string | null;
     created_at: string;

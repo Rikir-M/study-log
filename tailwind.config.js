@@ -5,6 +5,10 @@ export default {
         extend: {
             colors: {
                 primary: "#353535",
+                background: "#F4F1DE",
+            },
+            fontFamily: {
+                shantell: ['"Shantell Sans"', "sans"],
             },
         },
     },

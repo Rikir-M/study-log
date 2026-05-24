@@ -1,4 +1,4 @@
-import type { Mistake } from "../types/mistakes";
+import type { Mistake } from "../types/mistake";
 import { supabase } from "../utils/supabase";
 
 export async function createMistake(input: Mistake) {

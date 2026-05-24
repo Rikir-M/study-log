@@ -1,8 +1,6 @@
-export interface Session {
-    id: string;
-    type: string;
+import type { BaseItem } from "./baseItem";
+
+export interface Session extends BaseItem {
     duration: number;
     score: number | null;
-    note: string | null;
-    created_at: string;
 }
