@@ -76,6 +76,7 @@ export default function SessionForm({
                             SAT Reading/Writing
                         </option>
                         <option value="IELTS">IELTS</option>
+                        <option value="Italian">Italian</option>
                         <option value="Project">Project</option>
                     </select>
                 </Form.Control>

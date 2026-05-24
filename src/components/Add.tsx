@@ -1,8 +1,8 @@
-import { Plus, X } from "lucide-react";
-import { Dialog, Separator } from "radix-ui";
-import FormTab from "../FormTab";
+import { Plus } from "lucide-react";
+import { Dialog } from "radix-ui";
+import FormTab from "./FormTab";
 
-export default function AddSession() {
+export default function Add() {
     return (
         <Dialog.Root>
             <Dialog.Trigger asChild>

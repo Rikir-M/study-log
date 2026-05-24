@@ -1,15 +1,13 @@
 import { Outlet } from "react-router";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
 
 function App() {
     return (
-        <Theme panelBackground="solid" className="p-3">
+        <div className="p-5 bg-background min-h-dvh">
             <Navbar />
             <Outlet />
-        </Theme>
+        </div>
     );
 }
 

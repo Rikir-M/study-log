@@ -1,5 +1,5 @@
 import { Form } from "radix-ui";
-import type { Mistake } from "../../types/mistakes";
+import type { Mistake } from "../../types/mistake";
 import { createMistake, updateMistake } from "../../api/mistakes";
 
 type MistakeFormProps = {

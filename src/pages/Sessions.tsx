@@ -1,138 +1,129 @@
-import { DropdownMenu, Flex, IconButton, Table } from "@radix-ui/themes";
-import type { Session } from "../types/session";
 import { useLoaderData } from "react-router";
-import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
+import * as Tabs from "@radix-ui/react-tabs";
+import ReviewSwipeCard from "../components/ReviewSwipeCard";
 import EditSession from "../components/sessions/EditSession";
 import Alert from "../components/Alert";
-import { useState } from "react";
+import type { Session } from "../types/session";
+import type { Mistake } from "../types/mistake";
+import EditMistake from "../components/mistakes/EditMistake";
+
+export type DeleteTarget =
+    | { type: "session"; data: Session }
+    | { type: "mistake"; data: Mistake };
 
 export default function Sessions() {
-    const { sessions } = useLoaderData() as { sessions: Session[] };
-
-    const [selectedSession, setSelectedSession] = useState<Session | null>(
-        null,
-    );
-
-    const [editOpen, setEditOpen] = useState(false);
-
-    const [deleteOpen, setDeleteOpen] = useState(false);
-
-    const handleEdit = (session: Session) => {
-        setSelectedSession(session);
-        setEditOpen(true);
+    const { sessions, mistakes } = useLoaderData() as {
+        sessions: Session[];
+        mistakes: Mistake[];
     };
 
-    const handleDelete = (session: Session) => {
-        setSelectedSession(session);
+    // const [editOpen, setEditOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
+
+    // const [selectedSession, setSelectedSession] = useState<Session | null>(
+    //     null,
+    // );
+
+    // const [selectedMistake, setSelectedMistake] = useState<Mistake | null>(
+    //     null,
+    // );
+
+    const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
+
+    const handleEdit = (item: Session | Mistake) => {
+        if ("duration" in item) {
+            setSelectedSession(item);
+        } else {
+            setSelectedMistake(item);
+        }
+
+        // setEditOpen(true);
+    };
+
+    const handleDelete = (item: Session | Mistake) => {
+        if ("duration" in item) {
+            setDeleteTarget({ type: "session", data: item });
+        } else {
+            setDeleteTarget({ type: "mistake", data: item });
+        }
+
         setDeleteOpen(true);
     };
 
     return (
-        <div>
-            <Table.Root
-                variant="surface"
-                className="lg:w-[70%] mx-auto"
-                layout="fixed"
-            >
-                <Table.Header>
-                    <Table.Row>
-                        <Table.ColumnHeaderCell width="20%">
-                            Session Type
-                        </Table.ColumnHeaderCell>
+        <div className="w-full">
+            <Tabs.Root defaultValue="sessions" className="w-full">
+                <Tabs.List className="flex gap-5 h-10">
+                    <Tabs.Trigger
+                        value="sessions"
+                        className="border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-semibold"
+                    >
+                        Sessions
+                    </Tabs.Trigger>
 
-                        <Table.ColumnHeaderCell width="10%">
-                            Duration
-                        </Table.ColumnHeaderCell>
+                    <Tabs.Trigger
+                        value="mistakes"
+                        className="border-b-2 border-transparent data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-semibold"
+                    >
+                        Mistakes
+                    </Tabs.Trigger>
+                </Tabs.List>
 
-                        <Table.ColumnHeaderCell width="10%">
-                            Score
-                        </Table.ColumnHeaderCell>
-
-                        <Table.ColumnHeaderCell width="40%">
-                            Note
-                        </Table.ColumnHeaderCell>
-
-                        <Table.ColumnHeaderCell width="10%">
-                            Created At
-                        </Table.ColumnHeaderCell>
-
-                        <Table.ColumnHeaderCell width="10%" />
-                    </Table.Row>
-                </Table.Header>
-
-                <Table.Body>
+                <Tabs.Content value="sessions" className="mt-4 space-y-3">
                     {sessions.map((session) => (
-                        <Table.Row key={session.id}>
-                            <Table.Cell>{session.type}</Table.Cell>
-
-                            <Table.Cell>{session.duration} mins</Table.Cell>
-
-                            <Table.Cell>{session.score ?? "N/A"}</Table.Cell>
-
-                            <Table.Cell className="truncate">
-                                {session.note ?? "N/A"}
-                            </Table.Cell>
-
-                            <Table.Cell>
-                                {new Date(
-                                    session.created_at,
-                                ).toLocaleDateString()}
-                            </Table.Cell>
-
-                            <Table.Cell>
-                                <Flex flexGrow="1" justify="end">
-                                    <DropdownMenu.Root>
-                                        <DropdownMenu.Trigger>
-                                            <IconButton
-                                                color="gray"
-                                                variant="ghost"
-                                            >
-                                                <EllipsisVertical />
-                                            </IconButton>
-                                        </DropdownMenu.Trigger>
-
-                                        <DropdownMenu.Content variant="soft">
-                                            <DropdownMenu.Item>
-                                                View detail
-                                            </DropdownMenu.Item>
-
-                                            <DropdownMenu.Item
-                                                onSelect={() =>
-                                                    handleEdit(session)
-                                                }
-                                            >
-                                                Edit
-                                            </DropdownMenu.Item>
-
-                                            <DropdownMenu.Separator />
-
-                                            <DropdownMenu.Item
-                                                color="red"
-                                                onSelect={() =>
-                                                    handleDelete(session)
-                                                }
-                                            >
-                                                Remove
-                                            </DropdownMenu.Item>
-                                        </DropdownMenu.Content>
-                                    </DropdownMenu.Root>
-                                </Flex>
-                            </Table.Cell>
-                        </Table.Row>
+                        <ReviewSwipeCard
+                            key={session.id}
+                            item={session}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            meta={
+                                <>
+                                    <span className="text-sm">
+                                        Score: {session.score ?? "N/A"}
+                                    </span>
+                                    <span className="text-sm">
+                                        Duration: {session.duration} mins
+                                    </span>
+                                </>
+                            }
+                        />
                     ))}
-                </Table.Body>
-            </Table.Root>
+                </Tabs.Content>
 
-            <EditSession
+                <Tabs.Content value="mistakes" className="mt-4 space-y-3">
+                    {mistakes.map((mistake) => (
+                        <ReviewSwipeCard
+                            key={mistake.id}
+                            item={mistake}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            meta={
+                                <span className="text-sm">
+                                    Topic: {mistake.topic}
+                                </span>
+                            }
+                        />
+                    ))}
+                </Tabs.Content>
+            </Tabs.Root>
+
+            {/* <EditSession
                 open={editOpen}
                 onOpenChange={setEditOpen}
                 session={selectedSession}
             />
 
+            <EditMistake
+                open={editOpen}
+                onOpenChange={setEditOpen}
+                mistake={selectedMistake}
+            /> */}
+
             <Alert
                 open={deleteOpen}
                 onOpenChange={setDeleteOpen}
-                session={selectedSession}
+                item={deleteTarget}
             />
         </div>
     );
