@@ -1,27 +1,29 @@
 import { X } from "lucide-react";
-import SessionForm from "./SessionForm";
 import { Dialog, Separator } from "radix-ui";
-import type { Session } from "../../types/session";
+import type { ActionTarget } from "../pages/Sessions";
+import SessionForm from "./sessions/SessionForm";
+import MistakeForm from "./mistakes/MistakeForm";
 
-type EditSessionProps = {
+type EditProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    session: Session | null;
+    item: ActionTarget | null;
 };
 
-export default function EditSession({
+export default function Edit({
     open,
     onOpenChange,
-    session,
-}: EditSessionProps) {
-    if (!session) return null;
+    item,
+}: EditProps) {
+    if (!item) return null;
 
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
             <Dialog.Portal>
                 <Dialog.Content className="fixed left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 bg-primary text-white p-4 rounded-lg shadow-black shadow-md">
                     <Dialog.Title className="mb-4 text-lg font-semibold">
-                        Edit Session
+                        Edit {" "}
+                        {item?.type === "mistake" ? "Mistake" : "Session"}
                     </Dialog.Title>
 
                     <Separator.Root className="mb-4 bg-white h-[1px]" />
@@ -32,7 +34,12 @@ export default function EditSession({
                         </button>
                     </Dialog.Close>
 
-                    <SessionForm mode="edit" session={session} />
+                    {item.type === "session" && (
+                        <SessionForm mode="edit" session={item.data} />
+                    )}
+                    {item.type === "mistake" && (
+                        <MistakeForm mode="edit" mistake={item.data} />
+                    )}
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

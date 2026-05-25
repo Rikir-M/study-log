@@ -2,13 +2,12 @@ import { useLoaderData } from "react-router";
 import { useState } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import ReviewSwipeCard from "../components/ReviewSwipeCard";
-import EditSession from "../components/sessions/EditSession";
-import Alert from "../components/Alert";
 import type { Session } from "../types/session";
 import type { Mistake } from "../types/mistake";
-import EditMistake from "../components/mistakes/EditMistake";
+import Edit from "../components/Edit";
+import Alert from "../components/Alert";
 
-export type DeleteTarget =
+export type ActionTarget =
     | { type: "session"; data: Session }
     | { type: "mistake"; data: Mistake };
 
@@ -18,27 +17,20 @@ export default function Sessions() {
         mistakes: Mistake[];
     };
 
-    // const [editOpen, setEditOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
 
-    // const [selectedSession, setSelectedSession] = useState<Session | null>(
-    //     null,
-    // );
-
-    // const [selectedMistake, setSelectedMistake] = useState<Mistake | null>(
-    //     null,
-    // );
-
-    const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
+    const [deleteTarget, setDeleteTarget] = useState<ActionTarget | null>(null);
+    const [editTarget, setEditTarget] = useState<ActionTarget | null>(null);
 
     const handleEdit = (item: Session | Mistake) => {
         if ("duration" in item) {
-            setSelectedSession(item);
+            setEditTarget({ type: "session", data: item });
         } else {
-            setSelectedMistake(item);
+            setEditTarget({ type: "mistake", data: item });
         }
 
-        // setEditOpen(true);
+        setEditOpen(true);
     };
 
     const handleDelete = (item: Session | Mistake) => {
@@ -71,6 +63,9 @@ export default function Sessions() {
                 </Tabs.List>
 
                 <Tabs.Content value="sessions" className="mt-4 space-y-3">
+                    {sessions.length < 1 && (
+                        <p className="text-center">There's no session.</p>
+                    )}
                     {sessions.map((session) => (
                         <ReviewSwipeCard
                             key={session.id}
@@ -92,6 +87,9 @@ export default function Sessions() {
                 </Tabs.Content>
 
                 <Tabs.Content value="mistakes" className="mt-4 space-y-3">
+                    {mistakes.length < 1 && (
+                        <p className="text-center">There's no mistake.</p>
+                    )}
                     {mistakes.map((mistake) => (
                         <ReviewSwipeCard
                             key={mistake.id}
@@ -108,17 +106,11 @@ export default function Sessions() {
                 </Tabs.Content>
             </Tabs.Root>
 
-            {/* <EditSession
+            <Edit
                 open={editOpen}
                 onOpenChange={setEditOpen}
-                session={selectedSession}
+                item={editTarget}
             />
-
-            <EditMistake
-                open={editOpen}
-                onOpenChange={setEditOpen}
-                mistake={selectedMistake}
-            /> */}
 
             <Alert
                 open={deleteOpen}
