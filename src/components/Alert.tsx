@@ -1,12 +1,12 @@
 import { AlertDialog } from "radix-ui";
 import { deleteSession } from "../api/sessions";
 import { deleteMistake } from "../api/mistakes";
-import type { DeleteTarget } from "../pages/Sessions";
+import type { ActionTarget } from "../pages/Sessions";
 
 type AlertProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    item: DeleteTarget | null;
+    item: ActionTarget | null;
 };
 
 export default function Alert({ open, onOpenChange, item }: AlertProps) {
