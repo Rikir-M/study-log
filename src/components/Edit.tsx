@@ -3,6 +3,7 @@ import { Dialog, Separator } from "radix-ui";
 import type { ActionTarget } from "../pages/Sessions";
 import SessionForm from "./sessions/SessionForm";
 import MistakeForm from "./mistakes/MistakeForm";
+import IconBtn from "./IconBtn";
 
 type EditProps = {
     open: boolean;
@@ -20,18 +21,18 @@ export default function Edit({
     return (
         <Dialog.Root open={open} onOpenChange={onOpenChange}>
             <Dialog.Portal>
-                <Dialog.Content className="fixed left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 bg-primary text-white p-4 rounded-lg shadow-black shadow-md">
-                    <Dialog.Title className="mb-4 text-lg font-semibold">
+                <Dialog.Overlay className="fixed inset-0 bg-black/40 z-30" />
+
+                <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 bg-background p-4 rounded-lg shadow-black shadow-md z-30">
+                    <Dialog.Title className="mb-4 text-lg font-semibold font-shantell">
                         Edit {" "}
                         {item?.type === "mistake" ? "Mistake" : "Session"}
                     </Dialog.Title>
 
-                    <Separator.Root className="mb-4 bg-white h-[1px]" />
+                    <Separator.Root className="mb-4 bg-black h-[1px]" />
 
                     <Dialog.Close asChild>
-                        <button className="absolute top-4 right-4">
-                            <X />
-                        </button>
+                        <IconBtn icon={X} className="absolute top-5 right-4" />
                     </Dialog.Close>
 
                     {item.type === "session" && (

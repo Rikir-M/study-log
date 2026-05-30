@@ -6,6 +6,7 @@ export default {
             colors: {
                 primary: "#353535",
                 background: "#F4F1DE",
+                danger: "#D44E28",
             },
             fontFamily: {
                 shantell: ['"Shantell Sans"', "sans"],

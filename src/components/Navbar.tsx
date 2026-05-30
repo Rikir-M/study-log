@@ -40,7 +40,7 @@ export default function Navbar() {
     );
 
     return (
-        <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[90%] md:w-3/5 z-50">
+        <div className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[90%] md:w-3/5 z-20">
             <Add />
             <img className="mx-auto" src={Rectangle} alt="" />
             <ul className="flex items-center justify-between bg-primary text-white p-5 rounded-full shadow-lg">

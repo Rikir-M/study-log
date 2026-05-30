@@ -12,9 +12,9 @@ export default function Add() {
             </Dialog.Trigger>
 
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/40" />
+                <Dialog.Overlay className="fixed inset-0 bg-black/40 z-30" />
 
-                <Dialog.Content className="fixed left-1/2 top-1/2 w-[400px] -translate-x-1/2 -translate-y-1/2 bg-primary p-4 rounded-lg shadow-black shadow-md">
+                <Dialog.Content className="fixed left-1/2 top-1/2 max-h-[85vh] w-[90vw] max-w-[400px] -translate-x-1/2 -translate-y-1/2 bg-background p-4 rounded-2xl shadow-black shadow-md z-30">
                     <FormTab />
                 </Dialog.Content>
             </Dialog.Portal>
